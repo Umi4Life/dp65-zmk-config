@@ -4,14 +4,6 @@
 #include <dt-bindings/zmk/ext_power.h>
 
 / {
-    /* Re-assert ext VCC and redraw (FN+B position key) */
-    display_pwr_fix: display_pwr_fix {
-        compatible = "zmk,behavior-macro";
-        #binding-cells = <0>;
-        wait-ms = <500>;
-        bindings = <&ext_power EP_OFF &ext_power EP_ON>;
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -30,7 +22,7 @@
                 &kp ESC       &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6
                 &bt BT_SEL 0  &kp HOME  &kp UP    &kp END   &kp PG_UP &kp F10   &kp F11
                 &bt BT_SEL 1  &kp LEFT  &kp DOWN  &kp RIGHT &kp PG_DN &kp F12   &trans
-                &bt BT_SEL 2  &kp C_VOL_DN &kp C_VOL_UP &display_pwr_fix &kp LCTRL &kp LGUI  &kp LALT
+                &bt BT_SEL 2  &kp C_VOL_DN &kp C_VOL_UP &kp B     &kp LCTRL &kp LGUI  &kp LALT
                 &ext_power EP_ON &bootloader
             >;
         };
