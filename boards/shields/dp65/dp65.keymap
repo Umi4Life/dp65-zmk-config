@@ -4,12 +4,11 @@
 #include <dt-bindings/zmk/ext_power.h>
 
 / {
-    /* Power-cycle ext VCC — known workaround when display stays blank after boot */
+    /* Re-assert ext VCC if the panel went dark (do not EP_OFF — that persists to flash) */
     display_pwr_fix: display_pwr_fix {
         compatible = "zmk,behavior-macro";
         #binding-cells = <0>;
-        wait-ms = <500>;
-        bindings = <&ext_power EP_OFF &ext_power EP_ON>;
+        bindings = <&ext_power EP_ON>;
     };
 
     keymap {
