@@ -51,30 +51,15 @@ nice_view_spi: &spi0 {
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
 };
 
+/* AS5600 disabled while debugging nice!view — re-enable after display works */
 &i2c1 {
-    compatible = "nordic,nrf-twim";
-    status = "okay";
-    pinctrl-0 = <&i2c1_default>;
-    pinctrl-1 = <&i2c1_sleep>;
-    pinctrl-names = "default", "sleep";
-    clock-frequency = <I2C_BITRATE_STANDARD>;
-
-    as5600: as5600@36 {
-        compatible = "zmk,input-ams-as5600";
-        reg = <0x36>;
-        status = "okay";
-    };
+    status = "disabled";
 };
 
 / {
-    /* nice!nano P0.13 MOSFET: wait for 3.3V rail before display init */
+    /* nice!nano P0.13 MOSFET: allow 3.3V rail to settle before display init */
     EXT_POWER {
-        init-delay-ms = <100>;
-    };
-
-    as5600_listener: as5600_listener {
-        compatible = "zmk,input-listener";
-        device = <&as5600>;
+        init-delay-ms = <500>;
     };
 };
 
