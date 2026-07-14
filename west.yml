@@ -1,0 +1,16 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: adolto
+      url-base: https://github.com/adolto
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
+    - name: zmk-driver-ams-as5600
+      remote: adolto
+      revision: main
+  self:
+    path: .
