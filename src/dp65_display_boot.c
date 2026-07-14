@@ -80,17 +80,7 @@ static void dp65_display_boot_work(struct k_work *work) {
     dp65_force_ext_power_on();
     k_msleep(500);
 
-    if (!device_is_ready(display_dev)) {
-        int err = device_init(display_dev);
-
-        if (err < 0 && err != -EALREADY) {
-            LOG_WRN("display device_init returned %d", err);
-        }
-        k_msleep(100);
-    }
-
     if (device_is_ready(display_dev)) {
-        (void)display_clear(display_dev);
         (void)display_blanking_off(display_dev);
     }
 
