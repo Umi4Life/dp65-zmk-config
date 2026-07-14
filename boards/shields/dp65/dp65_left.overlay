@@ -3,6 +3,7 @@
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
+            /* L_SCK=P0.20, L_MOSI=P0.17 — matches nice!view native pinout */
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 17)>;
         };
@@ -16,21 +17,28 @@
         };
     };
 
-    i2c0_default: i2c0_default {
+    /* Use TWIM1 — TWIM0 shares hardware with SPIM0 on nRF52840 */
+    i2c1_default: i2c1_default {
         group1 {
+            /* L_SDA=P0.11, L_SCL=P1.00 */
             psels = <NRF_PSEL(TWIM_SDA, 0, 11)>,
                     <NRF_PSEL(TWIM_SCL, 1, 0)>;
             bias-pull-up;
         };
     };
 
-    i2c0_sleep: i2c0_sleep {
+    i2c1_sleep: i2c1_sleep {
         group1 {
             psels = <NRF_PSEL(TWIM_SDA, 0, 11)>,
                     <NRF_PSEL(TWIM_SCL, 1, 0)>;
             low-power-enable;
         };
     };
+};
+
+/* Free SPI0 for nice!view (cannot coexist with I2C0 on nRF52840) */
+&i2c0 {
+    status = "disabled";
 };
 
 nice_view_spi: &spi0 {
@@ -43,11 +51,11 @@ nice_view_spi: &spi0 {
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
 };
 
-&i2c0 {
+&i2c1 {
     compatible = "nordic,nrf-twim";
     status = "okay";
-    pinctrl-0 = <&i2c0_default>;
-    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-0 = <&i2c1_default>;
+    pinctrl-1 = <&i2c1_sleep>;
     pinctrl-names = "default", "sleep";
     clock-frequency = <I2C_BITRATE_STANDARD>;
 
