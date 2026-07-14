@@ -1,0 +1,5 @@
+config SHIELD_DP65_LEFT
+    def_bool $(shields_list_contains,dp65_left)
+
+config SHIELD_DP65_RIGHT
+    def_bool $(shields_list_contains,dp65_right)

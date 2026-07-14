@@ -1,0 +1,16 @@
+if SHIELD_DP65_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "dp65"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif # SHIELD_DP65_LEFT
+
+if SHIELD_DP65_LEFT || SHIELD_DP65_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif # SHIELD_DP65_LEFT || SHIELD_DP65_RIGHT
