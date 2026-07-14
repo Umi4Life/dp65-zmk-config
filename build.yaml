@@ -1,7 +1,7 @@
 ---
 include:
   - board: nice_nano@2.0.0//zmk
-    shield: dp65_left nice_view
+    shield: nice_view dp65_left
     artifact-name: dp65_left
   - board: nice_nano@2.0.0//zmk
     shield: settings_reset

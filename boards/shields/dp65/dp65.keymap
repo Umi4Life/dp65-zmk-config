@@ -1,6 +1,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
 
 / {
     keymap {
@@ -22,7 +23,7 @@
                 &bt BT_SEL 0  &kp HOME  &kp UP    &kp END   &kp PG_UP &kp F10   &kp F11
                 &bt BT_SEL 1  &kp LEFT  &kp DOWN  &kp RIGHT &kp PG_DN &kp F12   &trans
                 &bt BT_SEL 2  &kp C_VOL_DN &kp C_VOL_UP &kp B     &kp LCTRL &kp LGUI  &kp LALT
-                &trans        &bootloader
+                &ext_power EP_ON &bootloader
             >;
         };
     };

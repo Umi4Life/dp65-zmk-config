@@ -59,6 +59,11 @@ nice_view_spi: &spi0 {
 };
 
 / {
+    /* nice!nano P0.13 MOSFET: wait for 3.3V rail before display init */
+    EXT_POWER {
+        init-delay-ms = <100>;
+    };
+
     as5600_listener: as5600_listener {
         compatible = "zmk,input-listener";
         device = <&as5600>;
