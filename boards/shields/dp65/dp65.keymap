@@ -4,11 +4,12 @@
 #include <dt-bindings/zmk/ext_power.h>
 
 / {
-    /* Re-assert ext VCC if the panel went dark (do not EP_OFF — that persists to flash) */
+    /* Re-assert ext VCC and redraw (FN+B position key) */
     display_pwr_fix: display_pwr_fix {
         compatible = "zmk,behavior-macro";
         #binding-cells = <0>;
-        bindings = <&ext_power EP_ON>;
+        wait-ms = <500>;
+        bindings = <&ext_power EP_OFF &ext_power EP_ON>;
     };
 
     keymap {
