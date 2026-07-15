@@ -3,14 +3,19 @@ if SHIELD_DP65_LEFT
 config ZMK_KEYBOARD_NAME
     default "dp65"
 
+config ZMK_SPLIT
+    default y
+
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif # SHIELD_DP65_LEFT
 
-if SHIELD_DP65_LEFT || SHIELD_DP65_RIGHT
+if SHIELD_DP65_RIGHT
 
+# TODO: enable BLE split — set ZMK_SPLIT default y, add col-offset <7> in
+# dp65_right.overlay, merge to 65-key dp65.keymap, uncomment battery proxy in dp65.conf
 config ZMK_SPLIT
-    default y
+    default n
 
-endif # SHIELD_DP65_LEFT || SHIELD_DP65_RIGHT
+endif # SHIELD_DP65_RIGHT

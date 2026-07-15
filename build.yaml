@@ -4,5 +4,8 @@ include:
     shield: dp65_left nice_view
     artifact-name: dp65_left
   - board: nice_nano@2.0.0//zmk
+    shield: dp65_right nice_view
+    artifact-name: dp65_right
+  - board: nice_nano@2.0.0//zmk
     shield: settings_reset
     artifact-name: settings_reset

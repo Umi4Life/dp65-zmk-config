@@ -64,6 +64,14 @@ nice_view_spi: &spi0 {
 };
 
 &kscan {
+    row-gpios
+        = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* L_ROW0 P1.11 */
+        , <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* L_ROW1 P0.10 */
+        , <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* L_ROW2 P0.09 */
+        , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* L_ROW3 P0.22 */
+        , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* L_ROW4 P0.24 */
+        ;
+
     col-gpios
         = <&gpio1 4 GPIO_ACTIVE_HIGH>  /* L_COL0 P1.04 */
         , <&gpio1 6 GPIO_ACTIVE_HIGH>  /* L_COL1 P1.06 */

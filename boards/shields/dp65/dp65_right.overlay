@@ -1,19 +1,97 @@
-// This file was generated from a template. Edit it to match your keyboard.
-// See https://zmk.dev/docs/development/hardware-integration/new-shield for more
-// instructions.
-
 #include "dp65.dtsi"
 
-&default_transform {
-    // Set this to the number of columns on the left side.
-    col-offset = <2>;
+&pinctrl {
+    spi0_default: spi0_default {
+        group1 {
+            /* R_SCK=P0.20, R_MOSI=P0.17 — matches nice!view native pinout */
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+        };
+    };
+
+    spi0_sleep: spi0_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+            low-power-enable;
+        };
+    };
+
+    /* Use TWIM1 — TWIM0 shares hardware with SPIM0 on nRF52840 */
+    i2c1_default: i2c1_default {
+        group1 {
+            /* R_SDA=P0.11, R_SCL=P1.00 */
+            psels = <NRF_PSEL(TWIM_SDA, 0, 11)>,
+                    <NRF_PSEL(TWIM_SCL, 1, 0)>;
+            bias-pull-up;
+        };
+    };
+
+    i2c1_sleep: i2c1_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 11)>,
+                    <NRF_PSEL(TWIM_SCL, 1, 0)>;
+            low-power-enable;
+        };
+    };
+};
+
+/* Free SPI0 for nice!view (cannot coexist with I2C0 on nRF52840) */
+&i2c0 {
+    status = "disabled";
+};
+
+nice_view_spi: &spi0 {
+    compatible = "nordic,nrf-spim";
+    status = "okay";
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
+    pinctrl-names = "default", "sleep";
+    /* R_CS = P0.06 */
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+};
+
+/* AS5600 disabled while debugging nice!view — re-enable after display works */
+&i2c1 {
+    status = "disabled";
+};
+
+/ {
+    /* nice!nano P0.13 MOSFET: allow 3.3V rail to settle before display init */
+    EXT_POWER {
+        init-delay-ms = <500>;
+    };
+
+    /* TODO: enable BLE split peripheral
+     * 1. Kconfig.defconfig: ZMK_SPLIT default y on SHIELD_DP65_RIGHT
+     * 2. &right_transform { col-offset = <7>; };
+     * 3. Replace dp65_right.keymap with unified 65-key dp65.keymap
+     * 4. dp65.conf: uncomment CONFIG_ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_*
+     * 5. Re-flash both halves
+     */
+    chosen {
+        zmk,matrix-transform = &right_transform;
+        zmk,physical-layout = &right_layout;
+    };
 };
 
 &kscan {
-    // Replace these comments with the GPIO pins in the matrix for the right side.
-    // See https://zmk.dev/docs/development/hardware-integration/new-shield#shield-overlays
+    row-gpios
+        = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* R_ROW0 P0.10 */
+        , <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* R_ROW1 P0.09 */
+        , <&gpio0 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* R_ROW2 P0.08 */
+        , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* R_ROW3 P0.22 */
+        , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* R_ROW4 P0.24 */
+        ;
+
     col-gpios
-        = <&pro_micro 0 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 0 GPIO_ACTIVE_HIGH>
+        = <&gpio1 4 GPIO_ACTIVE_HIGH>  /* R_COL0 P1.04 */
+        , <&gpio1 6 GPIO_ACTIVE_HIGH>  /* R_COL1 P1.06 */
+        , <&gpio0 31 GPIO_ACTIVE_HIGH> /* R_COL2 P0.31 */
+        , <&gpio0 29 GPIO_ACTIVE_HIGH> /* R_COL3 P0.29 */
+        , <&gpio0 2 GPIO_ACTIVE_HIGH>  /* R_COL4 P0.02 */
+        , <&gpio1 15 GPIO_ACTIVE_HIGH> /* R_COL5 P1.15 */
+        , <&gpio1 13 GPIO_ACTIVE_HIGH> /* R_COL6 P1.13 */
+        , <&gpio1 11 GPIO_ACTIVE_HIGH> /* R_COL7 P1.11 */
         ;
 };

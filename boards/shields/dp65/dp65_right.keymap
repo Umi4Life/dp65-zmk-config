@@ -1,0 +1,38 @@
+/* TODO: enable BLE split — merge into unified 65-key dp65.keymap when split is enabled */
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
+
+/ {
+    display_pwr_fix: display_pwr_fix {
+        compatible = "zmk,behavior-macro";
+        #binding-cells = <0>;
+        wait-ms = <500>;
+        bindings = <&ext_power EP_OFF &ext_power EP_ON>;
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL &kp BSPC  &kp Y
+                &kp U     &kp I     &kp O     &kp P     &kp LBKT  &kp RBKT  &kp BSLH  &kp H
+                &kp J     &kp K     &kp L     &kp SEMI  &kp SQT   &kp RET   &kp N     &kp M
+                &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT &kp UP    &kp SPACE &kp RALT  &mo 1
+                &kp LEFT  &kp DOWN  &kp RIGHT
+            >;
+        };
+
+        fn_layer {
+            bindings = <
+                &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12   &trans    &trans
+                &bt BT_SEL 0 &trans &trans &trans &trans &trans &trans &trans
+                &bt BT_SEL 1 &trans &trans &trans &trans &trans &trans &trans
+                &bt BT_SEL 2 &kp C_VOL_DN &kp C_VOL_UP &display_pwr_fix &trans &ext_power EP_ON &trans &trans
+                &trans &trans &bootloader
+            >;
+        };
+    };
+};
